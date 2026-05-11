@@ -1,3 +1,4 @@
+// Final stable version restored
 import React from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
