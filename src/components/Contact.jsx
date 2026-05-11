@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, MessageSquare, Share2, Globe, Send, Loader2, CheckCircle, Camera } from 'lucide-react';
 import { SITE_DATA } from '../data';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = '/api';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', date: '', message: '' });
@@ -15,7 +15,7 @@ const Contact = () => {
     setLoading(true);
     
     try {
-      const response = await fetch(`${API_URL}/contact`, {
+      const response = await fetch(`${API_URL}/send-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -26,11 +26,12 @@ const Contact = () => {
         setFormData({ name: '', email: '', date: '', message: '' });
         setTimeout(() => setSuccess(false), 5000);
       } else {
-        throw new Error('Failed to send inquiry');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send inquiry');
       }
     } catch (err) {
       console.error("Contact Error:", err);
-      alert("Could not send your inquiry. Please try again or contact via WhatsApp.");
+      alert(err.message || "Could not send your inquiry. Please try again or contact via WhatsApp.");
     } finally {
       setLoading(false);
     }
