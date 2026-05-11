@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Instagram, MessageCircle } from 'lucide-react';
+import { Heart, Camera, MessageSquare } from 'lucide-react';
 import { SITE_DATA } from '../data';
 
 const Footer = () => {
@@ -23,7 +23,7 @@ const Footer = () => {
             className="flex items-center gap-2 hover-primary transition-all"
             style={{ color: 'var(--white)', opacity: 0.8 }}
           >
-            <Instagram size={24} />
+            <Camera size={24} />
             <span>Instagram</span>
           </a>
           <a 
@@ -33,7 +33,7 @@ const Footer = () => {
             className="flex items-center gap-2 hover-primary transition-all"
             style={{ color: 'var(--white)', opacity: 0.8 }}
           >
-            <MessageCircle size={24} />
+            <MessageSquare size={24} />
             <span>WhatsApp</span>
           </a>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, MessageSquare, Share2, Globe, Send, Loader2, CheckCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageSquare, Share2, Globe, Send, Loader2, CheckCircle, Camera } from 'lucide-react';
 import { SITE_DATA } from '../data';
 
 const API_URL = 'http://localhost:5000/api';
