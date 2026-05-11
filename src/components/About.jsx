@@ -1,13 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
 import { SITE_DATA } from '../data';
 
 const About = () => {
   return (
-    <section id="about" className="section-padding" style={{ backgroundColor: '#fffaf5' }}>
+    <section id="about" className="section-padding" style={{ backgroundColor: '#fffaf5', overflow: 'hidden' }}>
       <div className="container">
-        <div className="grid grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          {/* Image Side */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -15,58 +16,68 @@ const About = () => {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="about-image-container">
-              <img src="/mehandi_hero.png" alt="About Nargish" className="rounded-2xl shadow-2xl" style={{ width: '100%' }} />
-              {/* Logo Badge Overlay */}
+            <div className="about-image-container" style={{ position: 'relative', maxWidth: '500px', margin: '0 auto' }}>
+              <img 
+                src="/mehandi_hero.png" 
+                alt="About Nargish" 
+                className="rounded-2xl shadow-2xl" 
+                style={{ width: '100%', display: 'block' }} 
+              />
+              
+              {/* Logo Badge Overlay - Adjusted for responsive */}
               <div style={{ 
                 position: 'absolute', 
-                bottom: '-30px', 
-                right: '-30px', 
-                width: '140px', 
-                height: '140px', 
+                bottom: '-25px', 
+                right: '-25px', 
+                width: '130px', 
+                height: '130px', 
                 borderRadius: '50%', 
                 backgroundColor: 'white',
                 padding: '12px',
                 boxShadow: '0 15px 40px rgba(0,0,0,0.15)',
-                border: '2px solid #eee',
+                border: '3px solid var(--primary)',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                zIndex: 2
               }}>
                 <img src="/logo.png" alt="NF Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
               </div>
             </div>
           </motion.div>
 
+          {/* Content Side */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            style={{ paddingLeft: '10px' }}
           >
             <span className="text-primary font-bold tracking-widest uppercase mb-4 block" style={{ fontSize: '0.9rem' }}>Since 2010</span>
-            <h2 className="text-5xl font-serif font-bold mb-6">{SITE_DATA.about.title}</h2>
+            <h2 className="text-5xl font-serif font-bold mb-8 leading-tight">{SITE_DATA.about.title}</h2>
             
             {SITE_DATA.about.paragraphs.map((p, i) => (
-              <p key={i} className="mb-6" style={{ color: 'var(--text-light)', lineHeight: '1.8', fontSize: '1.1rem' }}>
+              <p key={i} className="mb-6" style={{ color: 'var(--text-light)', lineHeight: '1.8', fontSize: '1.15rem' }}>
                 {p}
               </p>
             ))}
 
-            <div className="grid grid-cols-3 gap-4 mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
               {SITE_DATA.about.stats.map((stat, i) => (
-                <div key={i} className="text-center p-4 rounded-xl" style={{ backgroundColor: 'white', border: '1px solid #f0f0f0' }}>
+                <div key={i} className="text-center p-6 rounded-2xl" style={{ backgroundColor: 'white', border: '1px solid #f0f0f0', boxShadow: '0 5px 15px rgba(0,0,0,0.02)' }}>
                   <h3 className="text-3xl font-serif font-bold text-primary mb-1">{stat.value}</h3>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '1px' }}>{stat.label}</p>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '600' }}>{stat.label}</p>
                 </div>
               ))}
             </div>
             
             {/* Signature Logo Decorative */}
-            <div className="mt-10 flex items-center gap-4">
-              <div style={{ width: '50px', height: '1px', backgroundColor: 'var(--primary)', opacity: 0.3 }}></div>
-              <img src="/logo.png" alt="Signature" style={{ width: '40px', opacity: 0.6 }} />
-              <div style={{ width: '50px', height: '1px', backgroundColor: 'var(--primary)', opacity: 0.3 }}></div>
+            <div className="mt-12 flex items-center gap-4">
+              <div style={{ width: '60px', height: '1px', backgroundColor: 'var(--primary)', opacity: 0.3 }}></div>
+              <img src="/logo.png" alt="Signature" style={{ width: '45px', opacity: 0.6 }} />
+              <div style={{ width: '60px', height: '1px', backgroundColor: 'var(--primary)', opacity: 0.3 }}></div>
+              <span className="font-serif italic" style={{ opacity: 0.5 }}>Nargish</span>
             </div>
           </motion.div>
         </div>
