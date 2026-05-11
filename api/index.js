@@ -8,22 +8,24 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// MongoDB Connection
+// MongoDB Connection Logic
 const MONGODB_URI = process.env.MONGODB_URI;
 let isConnected = false;
 
 const connectDB = async () => {
-  if (isConnected) return;
-  if (!MONGODB_URI) {
-    console.log('No MONGODB_URI found, using memory fallback');
-    return;
-  }
+  if (isConnected) return true;
+  if (!MONGODB_URI) return false;
+  
   try {
-    await mongoose.connect(MONGODB_URI);
+    // Set timeout to prevent hanging
+    await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000 
+    });
     isConnected = true;
-    console.log('MongoDB Connected');
+    return true;
   } catch (err) {
-    console.error('MongoDB Connection Error:', err);
+    console.error('DB Connection Error:', err.message);
+    return false;
   }
 };
 
@@ -36,36 +38,44 @@ const designSchema = new mongoose.Schema({
 
 const Design = mongoose.models.Design || mongoose.model('Design', designSchema);
 
-// Middleware to ensure DB connection
-app.use(async (req, res, next) => {
-  await connectDB();
-  next();
-});
-
-// Health Check
+// Routes
 app.get('/api', (req, res) => {
-  res.json({ status: 'Backend is Running Perfectly!', database: isConnected ? 'Connected' : 'Offline (Fallback Mode)' });
+  res.json({ status: 'Active', database: isConnected ? 'Connected' : 'Standby' });
 });
 
-// Get Designs
+app.get('/api/test', (req, res) => {
+  res.json({ success: true, message: 'Backend is Live' });
+});
+
+// Get Designs (With Fallback)
 app.get('/api/designs', async (req, res) => {
+  const dbStatus = await connectDB();
+  if (!dbStatus) {
+    return res.json([]); // Return empty array if DB is not ready
+  }
+  
   try {
     const designs = await Design.find().sort({ createdAt: -1 });
-    res.json(designs);
+    res.json(designs || []);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch designs' });
+    res.json([]); // Fallback to empty instead of 500
   }
 });
 
 // Add Design
 app.post('/api/designs', async (req, res) => {
+  const dbStatus = await connectDB();
+  if (!dbStatus) {
+    return res.status(503).json({ error: 'Database not configured. Set MONGODB_URI in Vercel.' });
+  }
+
   try {
     const { src, title } = req.body;
     const newDesign = new Design({ src, title });
     await newDesign.save();
-    res.json({ success: true, message: 'Design saved to database!' });
+    res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to save design' });
+    res.status(500).json({ error: 'Save failed' });
   }
 });
 
@@ -74,29 +84,24 @@ app.post('/api/send-email', async (req, res) => {
   const { name, email, date, message } = req.body;
 
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    return res.status(500).json({ error: 'Email configuration missing' });
+    return res.status(500).json({ error: 'Server Email Config Missing' });
   }
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
+    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
   });
 
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_RECEIVER || 'nknitishsingh94@gmail.com',
-    subject: `New Inquiry from ${name} - Nargish Mehandi`,
-    text: `You have a new booking request:\n\nName: ${name}\nEmail: ${email}\nEvent Date: ${date}\nMessage: ${message}`,
-  };
-
   try {
-    await transporter.sendMail(mailOptions);
-    res.json({ success: true, message: 'Message sent!' });
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_RECEIVER || 'nknitishsingh94@gmail.com',
+      subject: `Inquiry: ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\nDate: ${date}\nMessage: ${message}`
+    });
+    res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to send email' });
+    res.status(500).json({ error: 'Mail failed' });
   }
 });
 
