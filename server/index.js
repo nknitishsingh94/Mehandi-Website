@@ -9,11 +9,14 @@ app.use(express.json());
 app.use(cors());
 
 // MongoDB Connection
-// NOTE: You need to add MONGO_URI and EMAIL_PASS to your .env file
-const mongoURI = process.env.MONGO_URI || 'mongodb+srv://admin:admin@cluster0.mongodb.net/mehandi';
+const mongoURI = process.env.MONGO_URI;
+if (!mongoURI) {
+  console.error('CRITICAL: MONGO_URI is not defined in .env file');
+}
+
 mongoose.connect(mongoURI)
   .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log('MongoDB Connection Error:', err));
+  .catch(err => console.error('MongoDB Connection Error:', err));
 
 // Design Schema
 const designSchema = new mongoose.Schema({
@@ -27,8 +30,8 @@ const Design = mongoose.model('Design', designSchema);
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER || 'your-email@gmail.com',
-    pass: process.env.EMAIL_PASS || 'your-app-password'
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
@@ -36,19 +39,25 @@ const transporter = nodemailer.createTransport({
 app.get('/api/designs', async (req, res) => {
   try {
     const designs = await Design.find().sort({ createdAt: -1 });
-    res.json(designs);
+    // Always return an array, even if empty
+    res.json(designs || []);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Fetch Designs Error:', err);
+    res.status(500).json([]); // Return empty array on error to prevent frontend crash
   }
 });
 
 app.post('/api/designs', async (req, res) => {
   try {
-    const newDesign = new Design(req.body);
+    const { title, src } = req.body;
+    if (!title || !src) return res.status(400).json({ error: 'Missing fields' });
+    
+    const newDesign = new Design({ title, src });
     await newDesign.save();
     res.status(201).json(newDesign);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Post Design Error:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -58,7 +67,7 @@ app.post('/api/contact', async (req, res) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: process.env.EMAIL_RECEIVER || process.env.EMAIL_USER,
-    subject: `New Inquiry from ${name} - Royal Mehandi`,
+    subject: `New Inquiry from ${name} - Nargish Mehandi`,
     text: `
       Name: ${name}
       Email: ${email}
@@ -68,6 +77,9 @@ app.post('/api/contact', async (req, res) => {
   };
 
   try {
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      throw new Error('Email credentials missing');
+    }
     await transporter.sendMail(mailOptions);
     res.json({ success: true, message: 'Email sent successfully' });
   } catch (err) {

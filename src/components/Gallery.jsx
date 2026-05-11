@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, X, Image as ImageIcon, CheckCircle, Loader2 } from 'lucide-react';
+import { Plus, X, Image as ImageIcon, CheckCircle, Loader2, Lock } from 'lucide-react';
 import { SITE_DATA } from '../data';
 
 const API_URL = 'http://localhost:5000/api';
+const ADMIN_PASSWORD = 'nargish2026'; // Default password
 
 const Gallery = () => {
   const [items, setItems] = useState([]);
@@ -11,16 +12,20 @@ const Gallery = () => {
   const [newDesign, setNewDesign] = useState({ src: '', title: '' });
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [authPassword, setAuthPassword] = useState('');
+  const [isAuth, setIsAuth] = useState(false);
 
   const fetchDesigns = async () => {
     try {
       const response = await fetch(`${API_URL}/designs`);
       const data = await response.json();
-      // Combine static data from data.js and dynamic data from DB
-      setItems([...SITE_DATA.gallery, ...data]);
+      
+      // Safety check: ensure data is an array
+      const dynamicItems = Array.isArray(data) ? data : [];
+      setItems([...SITE_DATA.gallery, ...dynamicItems]);
     } catch (err) {
       console.error("Error fetching designs:", err);
-      setItems(SITE_DATA.gallery);
+      setItems(SITE_DATA.gallery); // Fallback to static data
     } finally {
       setLoading(false);
     }
@@ -32,6 +37,13 @@ const Gallery = () => {
 
   const handleAddDesign = async (e) => {
     e.preventDefault();
+    
+    // Check Admin Password
+    if (authPassword !== ADMIN_PASSWORD) {
+      alert("Invalid Admin Password! Only the owner can add designs.");
+      return;
+    }
+
     if (!newDesign.src || !newDesign.title) {
       alert("Please fill in both title and image URL!");
       return;
@@ -48,14 +60,15 @@ const Gallery = () => {
         setShowSuccess(true);
         setTimeout(() => setShowSuccess(false), 3000);
         setNewDesign({ src: '', title: '' });
+        setAuthPassword('');
         setIsModalOpen(false);
-        fetchDesigns(); // Refresh gallery
+        fetchDesigns();
       } else {
         throw new Error('Failed to save design');
       }
     } catch (err) {
       console.error("Error saving design:", err);
-      alert("Could not connect to server. Check if backend is running.");
+      alert("Could not connect to server. Ensure your backend is running.");
     }
   };
 
@@ -66,7 +79,7 @@ const Gallery = () => {
           <div className="text-left">
             <h2 className="text-4xl font-serif font-bold mb-2">Our Masterpieces</h2>
             <p style={{ color: 'var(--text-light)', maxWidth: '600px' }}>
-              A glimpse into our artistic journey. You can even add your own designs below!
+              A curated collection of our finest works. (Owner can add new designs below)
             </p>
           </div>
           <button 
@@ -85,7 +98,7 @@ const Gallery = () => {
             className="mb-6 p-4 rounded-xl flex items-center gap-2"
             style={{ backgroundColor: '#dcfce7', color: '#166534', border: '1px solid #bbf7d0' }}
           >
-            <CheckCircle size={20} /> Design added to Database successfully!
+            <CheckCircle size={20} /> Design added successfully!
           </motion.div>
         )}
 
@@ -130,6 +143,7 @@ const Gallery = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               className="modal-content"
+              style={{ maxWidth: '450px' }}
             >
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-2xl font-serif font-bold">Add New Design</h3>
@@ -139,6 +153,18 @@ const Gallery = () => {
               </div>
 
               <form onSubmit={handleAddDesign}>
+                <div className="form-group mb-6" style={{ background: '#f8f8f8', padding: '15px', borderRadius: '12px', border: '1px solid #eee' }}>
+                  <label className="flex items-center gap-2 mb-2"><Lock size={16} /> Admin Password</label>
+                  <input 
+                    type="password" 
+                    className="form-input" 
+                    placeholder="Enter admin password to unlock"
+                    value={authPassword}
+                    onChange={(e) => setAuthPassword(e.target.value)}
+                    required
+                  />
+                </div>
+
                 <div className="form-group">
                   <label>Design Title</label>
                   <input 
@@ -155,7 +181,7 @@ const Gallery = () => {
                   <input 
                     type="text" 
                     className="form-input" 
-                    placeholder="Paste your photo link here..."
+                    placeholder="Paste image link here..."
                     value={newDesign.src}
                     onChange={(e) => setNewDesign({...newDesign, src: e.target.value})}
                     required
@@ -163,7 +189,7 @@ const Gallery = () => {
                 </div>
                 
                 {newDesign.src && (
-                  <div className="mb-6" style={{ borderRadius: '15px', overflow: 'hidden', border: '1px solid #eee', height: '150px' }}>
+                  <div className="mb-6" style={{ borderRadius: '15px', overflow: 'hidden', border: '1px solid #eee', height: '120px' }}>
                     <img 
                       src={newDesign.src} 
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
