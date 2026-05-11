@@ -1,5 +1,6 @@
 import React from 'react';
-import { Heart } from 'lucide-react';
+import { Heart, Instagram, MessageCircle } from 'lucide-react';
+import { SITE_DATA } from '../data';
 
 const Footer = () => {
   return (
@@ -12,7 +13,32 @@ const Footer = () => {
         <p style={{ opacity: 0.7, maxWidth: '600px', margin: '0 auto 2rem' }}>
           Bringing the ancient art of Mehandi to your doorstep with modern elegance and tradition.
         </p>
-        <div className="border-t py-3" style={{ opacity: 0.3, marginTop: '2rem' }}></div>
+
+        {/* Social Links */}
+        <div className="flex justify-center gap-6 mb-8">
+          <a 
+            href={`https://instagram.com/${SITE_DATA.socials.instagram.replace('@', '')}`} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 hover-primary transition-all"
+            style={{ color: 'var(--white)', opacity: 0.8 }}
+          >
+            <Instagram size={24} />
+            <span>Instagram</span>
+          </a>
+          <a 
+            href={`https://wa.me/${SITE_DATA.phone.replace(/[^0-9]/g, '')}`} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 hover-primary transition-all"
+            style={{ color: 'var(--white)', opacity: 0.8 }}
+          >
+            <MessageCircle size={24} />
+            <span>WhatsApp</span>
+          </a>
+        </div>
+
+        <div className="border-t py-3" style={{ opacity: 0.1, marginTop: '2rem' }}></div>
         <p style={{ opacity: 0.5, fontSize: '0.9rem' }}>
           &copy; {new Date().getFullYear()} Royal Mehandi. All rights reserved. Designed with Love.
         </p>

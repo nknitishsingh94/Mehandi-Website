@@ -1,50 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, X, Image as ImageIcon, CheckCircle } from 'lucide-react';
+import { Plus, X, Image as ImageIcon, CheckCircle, Loader2 } from 'lucide-react';
 import { SITE_DATA } from '../data';
+
+const API_URL = 'http://localhost:5000/api';
 
 const Gallery = () => {
   const [items, setItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newDesign, setNewDesign] = useState({ src: '', title: '' });
   const [showSuccess, setShowSuccess] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const fetchDesigns = async () => {
+    try {
+      const response = await fetch(`${API_URL}/designs`);
+      const data = await response.json();
+      // Combine static data from data.js and dynamic data from DB
+      setItems([...SITE_DATA.gallery, ...data]);
+    } catch (err) {
+      console.error("Error fetching designs:", err);
+      setItems(SITE_DATA.gallery);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem('added_designs') || '[]');
-      setItems([...SITE_DATA.gallery, ...saved]);
-    } catch (err) {
-      console.error("Error loading designs:", err);
-      setItems(SITE_DATA.gallery);
-    }
+    fetchDesigns();
   }, []);
 
-  const handleAddDesign = (e) => {
+  const handleAddDesign = async (e) => {
     e.preventDefault();
     if (!newDesign.src || !newDesign.title) {
       alert("Please fill in both title and image URL!");
       return;
     }
     
-    const designToAdd = { ...newDesign };
-    const updatedItems = [...items, designToAdd];
-    setItems(updatedItems);
-    
     try {
-      const saved = JSON.parse(localStorage.getItem('added_designs') || '[]');
-      localStorage.setItem('added_designs', JSON.stringify([...saved, designToAdd]));
-      
-      // Success feedback
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
-      
-      setNewDesign({ src: '', title: '' });
-      setIsModalOpen(false);
+      const response = await fetch(`${API_URL}/designs`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newDesign)
+      });
+
+      if (response.ok) {
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+        setNewDesign({ src: '', title: '' });
+        setIsModalOpen(false);
+        fetchDesigns(); // Refresh gallery
+      } else {
+        throw new Error('Failed to save design');
+      }
     } catch (err) {
       console.error("Error saving design:", err);
-      alert("Could not save design to local storage. It will show only for this session.");
-      setNewDesign({ src: '', title: '' });
-      setIsModalOpen(false);
+      alert("Could not connect to server. Check if backend is running.");
     }
   };
 
@@ -74,27 +85,33 @@ const Gallery = () => {
             className="mb-6 p-4 rounded-xl flex items-center gap-2"
             style={{ backgroundColor: '#dcfce7', color: '#166534', border: '1px solid #bbf7d0' }}
           >
-            <CheckCircle size={20} /> Design added successfully!
+            <CheckCircle size={20} /> Design added to Database successfully!
           </motion.div>
         )}
 
-        <div className="grid grid-cols-3 gap-4">
-          {items.map((img, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
-              viewport={{ once: true }}
-              className="gallery-item"
-            >
-              <img src={img.src} alt={img.title} />
-              <div className="gallery-overlay">
-                <h4 className="text-white font-serif text-2xl" style={{ fontSize: '1.2rem' }}>{img.title}</h4>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center py-8">
+            <Loader2 className="animate-spin text-primary" size={40} />
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 gap-4">
+            {items.map((img, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
+                viewport={{ once: true }}
+                className="gallery-item"
+              >
+                <img src={img.src} alt={img.title} />
+                <div className="gallery-overlay">
+                  <h4 className="text-white font-serif text-2xl" style={{ fontSize: '1.2rem' }}>{img.title}</h4>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
 
       <AnimatePresence>
@@ -143,9 +160,6 @@ const Gallery = () => {
                     onChange={(e) => setNewDesign({...newDesign, src: e.target.value})}
                     required
                   />
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-light)', marginTop: '0.5rem' }}>
-                    Copy a link from Google Photos, Instagram, or any other site.
-                  </p>
                 </div>
                 
                 {newDesign.src && (
