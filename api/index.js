@@ -11,12 +11,11 @@ app.use(cors());
 app.post('/api/send-email', async (req, res) => {
   const { name, email, date, message } = req.body;
 
-  // Setup Transporter
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS, // Use App Password from Google
+      pass: process.env.EMAIL_PASS,
     },
   });
 
@@ -36,5 +35,9 @@ app.post('/api/send-email', async (req, res) => {
   }
 });
 
-// Export for Vercel
+// Designs Endpoint (Prevents 404 for designs)
+app.get('/api/designs', (req, res) => {
+  res.json([]); 
+});
+
 module.exports = app;
