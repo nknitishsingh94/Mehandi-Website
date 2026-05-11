@@ -9,7 +9,11 @@ app.use(cors());
 
 // Health Check / Root API
 app.get('/api', (req, res) => {
-  res.json({ status: 'API is running' });
+  res.json({ status: 'Backend is Running Perfectly!', timestamp: new Date() });
+});
+
+app.get('/api/test', (req, res) => {
+  res.json({ success: true, message: 'Serverless Backend is ACTIVE' });
 });
 
 // Designs Endpoint (Prevents 500 for designs)
