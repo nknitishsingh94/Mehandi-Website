@@ -11,7 +11,7 @@ export const SITE_DATA = {
   hero: {
     title: "Timeless Art by Nargish",
     highlight: "Nargish",
-    description: "Experience the exquisite beauty of traditional and modern Mehandi designs. Crafted with passion, precision, and natural henna for your wedding, festivals, and celebrations."
+    description: "Experience the exquisite beauty of traditional and modern Mehandi designs by Nargish. Crafted with passion, precision, and natural organic mehandi for your wedding, festivals, and celebrations."
   },
   services: [
     {
