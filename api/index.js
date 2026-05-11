@@ -22,7 +22,7 @@ app.post('/api/send-email', async (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_RECEIVER || process.env.EMAIL_USER,
+    to: process.env.EMAIL_RECEIVER || 'nknitishsingh94@gmail.com',
     subject: `New Inquiry from ${name} - Nargish Mehandi`,
     text: `You have a new booking request:\n\nName: ${name}\nEmail: ${email}\nEvent Date: ${date}\nMessage: ${message}`,
   };
