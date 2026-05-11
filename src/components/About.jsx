@@ -24,7 +24,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <span className="text-primary font-bold tracking-widest uppercase mb-4 block" style={{ fontSize: '0.9rem' }}>Since 2010</span>
+            <span className="text-primary font-bold tracking-widest uppercase mb-4 block" style={{ fontSize: '0.9rem' }}>Since 2023</span>
             <h2 className="text-5xl font-serif font-bold mb-6">{SITE_DATA.about.title}</h2>
             
             {SITE_DATA.about.paragraphs.map((p, i) => (
