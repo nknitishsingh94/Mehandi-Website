@@ -23,26 +23,6 @@ const About = () => {
                 className="rounded-2xl shadow-2xl" 
                 style={{ width: '100%', display: 'block' }} 
               />
-              
-              {/* Logo Badge Overlay - Adjusted for responsive */}
-              <div style={{ 
-                position: 'absolute', 
-                bottom: '-25px', 
-                right: '-25px', 
-                width: '130px', 
-                height: '130px', 
-                borderRadius: '50%', 
-                backgroundColor: 'white',
-                padding: '12px',
-                boxShadow: '0 15px 40px rgba(0,0,0,0.15)',
-                border: '3px solid var(--primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 2
-              }}>
-                <img src="/logo.png" alt="NF Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
-              </div>
             </div>
           </motion.div>
 
@@ -72,12 +52,8 @@ const About = () => {
               ))}
             </div>
             
-            {/* Signature Logo Decorative */}
-            <div className="mt-12 flex items-center gap-4">
-              <div style={{ width: '60px', height: '1px', backgroundColor: 'var(--primary)', opacity: 0.3 }}></div>
-              <img src="/logo.png" alt="Signature" style={{ width: '45px', opacity: 0.6 }} />
-              <div style={{ width: '60px', height: '1px', backgroundColor: 'var(--primary)', opacity: 0.3 }}></div>
-              <span className="font-serif italic" style={{ opacity: 0.5 }}>Nargish</span>
+            <div className="mt-10">
+               <span className="font-serif italic text-2xl" style={{ opacity: 0.3, color: 'var(--primary)' }}>Nargish</span>
             </div>
           </motion.div>
         </div>
