@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SITE_DATA } from '../data';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,7 @@ const Navbar = () => {
           <div className="container flex justify-between items-center" style={{ padding: '0 30px' }}>
             <div className="flex items-center gap-2">
               <Heart className="text-primary" fill="currentColor" size={24} />
-              <span className="text-2xl font-serif font-bold text-primary tracking-wider" style={{ fontSize: '1.2rem' }}>Royal Mehandi</span>
+              <span className="text-2xl font-serif font-bold text-primary tracking-wider" style={{ fontSize: '1.2rem' }}>{SITE_DATA.name}</span>
             </div>
 
             {/* Desktop Menu */}
@@ -80,7 +81,7 @@ const Navbar = () => {
               <div className="flex justify-between items-center mb-10">
                 <div className="flex items-center gap-2">
                   <Heart className="text-primary" fill="currentColor" size={20} />
-                  <span className="font-serif font-bold text-primary" style={{ fontSize: '1.1rem' }}>Royal Mehandi</span>
+                  <span className="font-serif font-bold text-primary" style={{ fontSize: '1.1rem' }}>{SITE_DATA.name}</span>
                 </div>
                 <button onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-dark)', cursor: 'pointer' }}>
                   <X size={24} />

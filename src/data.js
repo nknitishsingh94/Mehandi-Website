@@ -1,16 +1,16 @@
 export const SITE_DATA = {
-  name: "Royal Mehandi",
-  phone: "+91 98765 43210",
-  email: "hello@royalmehandi.com",
+  name: "NF Mehandi Designer",
+  phone: "+91 87959 19866",
+  email: "nknitishsingh94@gmail.com",
   location: "Mumbai, Maharashtra, India",
   socials: {
-    instagram: "#",
+    instagram: "nf_mehandi_designer", // Aap apna handle yahan change kar sakte hain
     facebook: "#",
     twitter: "#"
   },
   hero: {
-    title: "Timeless Art for Your Special Moments",
-    highlight: "Special Moments",
+    title: "Timeless Art by NF Mehandi Designer",
+    highlight: "NF Mehandi Designer",
     description: "Experience the exquisite beauty of traditional and modern Mehandi designs. Crafted with passion, precision, and natural henna for your wedding, festivals, and celebrations."
   },
   services: [
@@ -39,10 +39,10 @@ export const SITE_DATA = {
     { src: "/mehandi_hero.png", title: "Traditional Royal" }
   ],
   about: {
-    title: "About Royal Mehandi",
+    title: "About NF Mehandi Designer",
     subtitle: "Crafting Beauty Since 2010",
     paragraphs: [
-      "Welcome to Royal Mehandi, where we transform traditional henna application into a professional art form. Our journey started with a simple passion for intricate patterns and has evolved into a full-service bridal mehandi destination.",
+      "Welcome to NF Mehandi Designer, where we transform traditional henna application into a professional art form. Our journey started with a simple passion for intricate patterns and has evolved into a full-service bridal mehandi destination.",
       "We use 100% organic, hand-mixed henna to ensure the safest and darkest stain possible. Each design is custom-crafted to reflect the personality and heritage of our clients, making every occasion truly unforgettable."
     ],
     stats: [
