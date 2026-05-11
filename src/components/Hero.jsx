@@ -49,6 +49,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex gap-4"
+            style={{ marginTop: '3rem' }}
           >
             <a href="#contact" className="btn btn-primary" style={{ padding: '15px 40px', fontSize: '1.1rem' }}>Book an Appointment</a>
             <a href="#gallery" className="btn btn-outline" style={{ padding: '15px 40px', fontSize: '1.1rem', color: '#fff', borderColor: '#fff' }}>View Gallery</a>
