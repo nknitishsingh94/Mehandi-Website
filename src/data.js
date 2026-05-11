@@ -40,14 +40,14 @@ export const SITE_DATA = {
   ],
   about: {
     title: "About Nargish",
-    subtitle: "Crafting Beauty Since 2010",
+    subtitle: "Crafting Beauty Since 2023",
     paragraphs: [
       "Welcome to Nargish, where we transform traditional mehandi application into a professional art form. Our journey started with a simple passion for intricate patterns and has evolved into a full-service bridal destination.",
       "We use 100% organic, hand-mixed mehandi to ensure the safest and darkest stain possible. Each design is custom-crafted to reflect the personality and heritage of our clients, making every occasion truly unforgettable."
     ],
     stats: [
       { label: "Happy Brides", value: "500+" },
-      { label: "Years Experience", value: "10+" },
+      { label: "Years Experience", value: "3+" },
       { label: "Organic Mehandi", value: "100%" }
     ]
   }
