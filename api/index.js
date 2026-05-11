@@ -7,9 +7,31 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Health Check / Root API
+app.get('/api', (req, res) => {
+  res.json({ status: 'API is running' });
+});
+
+// Designs Endpoint (Prevents 500 for designs)
+app.get('/api/designs', (req, res) => {
+  try {
+    res.json([]); // Return empty array safely
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch designs' });
+  }
+});
+
 // Contact Form Endpoint
 app.post('/api/send-email', async (req, res) => {
   const { name, email, date, message } = req.body;
+
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.error('Email credentials missing in Environment Variables');
+    return res.status(500).json({ 
+      success: false, 
+      error: 'Backend Configuration Error: Email credentials missing in Vercel settings.' 
+    });
+  }
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -30,14 +52,9 @@ app.post('/api/send-email', async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.json({ success: true, message: 'Message sent successfully!' });
   } catch (err) {
-    console.error('Email Error:', err);
-    res.status(500).json({ success: false, error: 'Failed to send message.' });
+    console.error('Nodemailer Error:', err);
+    res.status(500).json({ success: false, error: 'Email delivery failed. Check your Gmail App Password.' });
   }
-});
-
-// Designs Endpoint (Prevents 404 for designs)
-app.get('/api/designs', (req, res) => {
-  res.json([]); 
 });
 
 module.exports = app;
