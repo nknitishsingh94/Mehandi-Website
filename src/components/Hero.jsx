@@ -13,13 +13,13 @@ const Hero = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
             style={{ 
-              width: '80px', 
-              height: '80px', 
+              width: '120px', 
+              height: '120px', 
               borderRadius: '50%', 
               overflow: 'hidden', 
-              border: '2px solid var(--primary)', 
+              border: '3px solid var(--primary)', 
               marginBottom: '2rem',
-              boxShadow: '0 0 20px rgba(139, 69, 19, 0.4)'
+              boxShadow: '0 0 30px rgba(139, 69, 19, 0.5)'
             }}
           >
             <img src="/logo.png" alt="NF Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

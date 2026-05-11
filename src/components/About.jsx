@@ -20,15 +20,15 @@ const About = () => {
               {/* Logo Badge Overlay */}
               <div style={{ 
                 position: 'absolute', 
-                bottom: '-20px', 
-                right: '-20px', 
-                width: '100px', 
-                height: '100px', 
+                bottom: '-30px', 
+                right: '-30px', 
+                width: '140px', 
+                height: '140px', 
                 borderRadius: '50%', 
                 backgroundColor: 'white',
-                padding: '10px',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                border: '1px solid #eee',
+                padding: '12px',
+                boxShadow: '0 15px 40px rgba(0,0,0,0.15)',
+                border: '2px solid #eee',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'

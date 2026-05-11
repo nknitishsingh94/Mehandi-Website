@@ -65,8 +65,8 @@ const Footer = () => {
 
           {/* Right Column: Brand Info */}
           <div className="text-right flex flex-col items-end">
-            <div className="flex items-center gap-3 mb-4">
-              <div style={{ width: '45px', height: '45px', borderRadius: '50%', overflow: 'hidden', border: '2px solid var(--primary)' }}>
+            <div className="flex items-center gap-4 mb-6">
+              <div style={{ width: '70px', height: '70px', borderRadius: '50%', overflow: 'hidden', border: '3px solid var(--primary)', boxShadow: '0 5px 15px rgba(0,0,0,0.2)' }}>
                 <img src="/logo.png" alt="NF Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <span className="text-3xl font-serif font-bold tracking-widest" style={{ color: 'var(--primary)' }}>{SITE_DATA.name.toUpperCase()}</span>
