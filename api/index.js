@@ -1,40 +1,80 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Health Check / Root API
-app.get('/api', (req, res) => {
-  res.json({ status: 'Backend is Running Perfectly!', timestamp: new Date() });
-});
+// MongoDB Connection
+const MONGODB_URI = process.env.MONGODB_URI;
+let isConnected = false;
 
-app.get('/api/test', (req, res) => {
-  res.json({ success: true, message: 'Serverless Backend is ACTIVE' });
-});
-
-// Designs Endpoint (Prevents 500 for designs)
-app.get('/api/designs', (req, res) => {
+const connectDB = async () => {
+  if (isConnected) return;
+  if (!MONGODB_URI) {
+    console.log('No MONGODB_URI found, using memory fallback');
+    return;
+  }
   try {
-    res.json([]); // Return empty array safely
+    await mongoose.connect(MONGODB_URI);
+    isConnected = true;
+    console.log('MongoDB Connected');
+  } catch (err) {
+    console.error('MongoDB Connection Error:', err);
+  }
+};
+
+// Design Schema
+const designSchema = new mongoose.Schema({
+  src: { type: String, required: true },
+  title: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Design = mongoose.models.Design || mongoose.model('Design', designSchema);
+
+// Middleware to ensure DB connection
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
+// Health Check
+app.get('/api', (req, res) => {
+  res.json({ status: 'Backend is Running Perfectly!', database: isConnected ? 'Connected' : 'Offline (Fallback Mode)' });
+});
+
+// Get Designs
+app.get('/api/designs', async (req, res) => {
+  try {
+    const designs = await Design.find().sort({ createdAt: -1 });
+    res.json(designs);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch designs' });
   }
 });
 
-// Contact Form Endpoint
+// Add Design
+app.post('/api/designs', async (req, res) => {
+  try {
+    const { src, title } = req.body;
+    const newDesign = new Design({ src, title });
+    await newDesign.save();
+    res.json({ success: true, message: 'Design saved to database!' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save design' });
+  }
+});
+
+// Send Email
 app.post('/api/send-email', async (req, res) => {
   const { name, email, date, message } = req.body;
 
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.error('Email credentials missing in Environment Variables');
-    return res.status(500).json({ 
-      success: false, 
-      error: 'Backend Configuration Error: Email credentials missing in Vercel settings.' 
-    });
+    return res.status(500).json({ error: 'Email configuration missing' });
   }
 
   const transporter = nodemailer.createTransport({
@@ -54,10 +94,9 @@ app.post('/api/send-email', async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    res.json({ success: true, message: 'Message sent successfully!' });
+    res.json({ success: true, message: 'Message sent!' });
   } catch (err) {
-    console.error('Nodemailer Error:', err);
-    res.status(500).json({ success: false, error: 'Email delivery failed. Check your Gmail App Password.' });
+    res.status(500).json({ error: 'Failed to send email' });
   }
 });
 
