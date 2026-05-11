@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Heart } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SITE_DATA } from '../data';
 
@@ -29,7 +29,9 @@ const Navbar = () => {
         <nav className={`navbar ${scrolled ? 'nav-scrolled' : 'py-3'}`}>
           <div className="container flex justify-between items-center" style={{ padding: '0 30px' }}>
             <div className="flex items-center gap-2">
-              <Heart className="text-primary" fill="currentColor" size={24} />
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', border: '1px solid rgba(139, 69, 19, 0.1)' }}>
+                <img src="/logo.png" alt="NF Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
               <span className="text-2xl font-serif font-bold text-primary tracking-wider" style={{ fontSize: '1.2rem' }}>{SITE_DATA.name}</span>
             </div>
 
@@ -80,7 +82,9 @@ const Navbar = () => {
             >
               <div className="flex justify-between items-center mb-10">
                 <div className="flex items-center gap-2">
-                  <Heart className="text-primary" fill="currentColor" size={20} />
+                  <div style={{ width: '35px', height: '35px', borderRadius: '50%', overflow: 'hidden' }}>
+                    <img src="/logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
                   <span className="font-serif font-bold text-primary" style={{ fontSize: '1.1rem' }}>{SITE_DATA.name}</span>
                 </div>
                 <button onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-dark)', cursor: 'pointer' }}>
