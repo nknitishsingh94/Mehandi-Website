@@ -1,68 +1,88 @@
 import React from 'react';
-import { Heart, Camera, MessageSquare } from 'lucide-react';
+import { Heart, Camera, MessageSquare, MapPin, Mail, Phone } from 'lucide-react';
 import { SITE_DATA } from '../data';
 
 const Footer = () => {
   return (
-    <footer className="py-5" style={{ backgroundColor: 'var(--text-dark)', color: 'var(--white)', padding: '60px 0' }}>
-      <div className="container text-center">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <Heart className="text-primary" fill="currentColor" size={20} />
-          <span className="text-2xl font-serif font-bold tracking-wider">{SITE_DATA.name}</span>
-        </div>
-        <p style={{ opacity: 0.7, maxWidth: '600px', margin: '0 auto 2rem' }}>
-          Bringing the ancient art of Mehandi to your doorstep with modern elegance and tradition.
-        </p>
+    <footer className="py-10" style={{ backgroundColor: '#1a1a1a', color: 'var(--white)', padding: '80px 0' }}>
+      <div className="container">
+        <div className="grid grid-cols-2 gap-12" style={{ alignItems: 'start' }}>
+          
+          {/* Left Column: Social & Contact Links */}
+          <div className="flex flex-col gap-6">
+            <h4 className="text-xl font-serif font-bold mb-4" style={{ letterSpacing: '1px' }}>Connect with Us</h4>
+            
+            <div className="flex flex-col gap-4">
+              <a 
+                href={`https://instagram.com/${SITE_DATA.socials.instagram.replace('@', '')}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 hover-primary transition-all group"
+                style={{ textDecoration: 'none', color: 'var(--white)' }}
+              >
+                <div style={{ 
+                  background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
+                  padding: '10px',
+                  borderRadius: '12px',
+                  display: 'flex'
+                }}>
+                  <Camera size={20} />
+                </div>
+                <div className="flex flex-col">
+                  <span style={{ fontSize: '0.9rem', fontWeight: '600' }}>Instagram</span>
+                  <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>@nargish_mehandi</span>
+                </div>
+              </a>
 
-        {/* Social Links with Colors and Spacing */}
-        <div className="flex justify-center gap-10 mb-8" style={{ marginTop: '30px' }}>
-          <a 
-            href={`https://instagram.com/${SITE_DATA.socials.instagram.replace('@', '')}`} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex flex-col items-center gap-2 hover-scale transition-all"
-            style={{ color: 'var(--white)', textDecoration: 'none' }}
-          >
-            <div style={{ 
-              background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
-              padding: '12px',
-              borderRadius: '15px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 5px 15px rgba(220, 39, 67, 0.3)'
-            }}>
-              <Camera size={28} />
+              <a 
+                href={`https://wa.me/${SITE_DATA.phone.replace(/[^0-9]/g, '')}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 hover-primary transition-all group"
+                style={{ textDecoration: 'none', color: 'var(--white)' }}
+              >
+                <div style={{ 
+                  background: '#25D366',
+                  padding: '10px',
+                  borderRadius: '12px',
+                  display: 'flex'
+                }}>
+                  <MessageSquare size={20} />
+                </div>
+                <div className="flex flex-col">
+                  <span style={{ fontSize: '0.9rem', fontWeight: '600' }}>WhatsApp</span>
+                  <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>Chat with Nargish</span>
+                </div>
+              </a>
             </div>
-            <span style={{ fontSize: '0.8rem', fontWeight: '500', marginTop: '5px' }}>Instagram</span>
-          </a>
 
-          <a 
-            href={`https://wa.me/${SITE_DATA.phone.replace(/[^0-9]/g, '')}`} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex flex-col items-center gap-2 hover-scale transition-all"
-            style={{ color: 'var(--white)', textDecoration: 'none' }}
-          >
-            <div style={{ 
-              background: '#25D366',
-              padding: '12px',
-              borderRadius: '15px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 5px 15px rgba(37, 211, 102, 0.3)'
-            }}>
-              <MessageSquare size={28} />
+            <div className="flex flex-col gap-3 mt-4" style={{ opacity: 0.8, fontSize: '0.9rem' }}>
+              <div className="flex items-center gap-2"><Phone size={16} className="text-primary" /> {SITE_DATA.phone}</div>
+              <div className="flex items-center gap-2"><Mail size={16} className="text-primary" /> {SITE_DATA.email}</div>
+              <div className="flex items-center gap-2"><MapPin size={16} className="text-primary" /> {SITE_DATA.location}</div>
             </div>
-            <span style={{ fontSize: '0.8rem', fontWeight: '500', marginTop: '5px' }}>WhatsApp</span>
-          </a>
-        </div>
+          </div>
 
-        <div className="border-t py-3" style={{ opacity: 0.1, marginTop: '3rem' }}></div>
-        <p style={{ opacity: 0.5, fontSize: '0.9rem' }}>
-          &copy; {new Date().getFullYear()} {SITE_DATA.name}. All rights reserved. Designed with Love.
-        </p>
+          {/* Right Column: Brand Info */}
+          <div className="text-right flex flex-col items-end">
+            <div className="flex items-center gap-2 mb-4">
+              <Heart className="text-primary" fill="currentColor" size={24} />
+              <span className="text-3xl font-serif font-bold tracking-widest" style={{ color: 'var(--primary)' }}>{SITE_DATA.name.toUpperCase()}</span>
+            </div>
+            <p style={{ opacity: 0.7, maxWidth: '400px', lineHeight: '1.8' }}>
+              Redefining mehandi artistry with elegance, passion, and tradition. 
+              We bring the most exquisite bridal and party designs to your doorstep.
+            </p>
+            
+            <div className="mt-10" style={{ opacity: 0.1, width: '100%', borderTop: '1px solid white' }}></div>
+            
+            <p className="mt-4" style={{ opacity: 0.4, fontSize: '0.85rem' }}>
+              &copy; {new Date().getFullYear()} {SITE_DATA.name}. All rights reserved.
+              <br />
+              <span style={{ letterSpacing: '1px' }}>CRAFTED WITH PRECISION</span>
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   );
