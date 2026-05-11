@@ -1,16 +1,16 @@
 export const SITE_DATA = {
-  name: "NF Mehandi Designer",
+  name: "Nargish",
   phone: "+91 87959 19866",
   email: "nknitishsingh94@gmail.com",
   location: "Mumbai, Maharashtra, India",
   socials: {
-    instagram: "nf_mehandi_designer", // Aap apna handle yahan change kar sakte hain
+    instagram: "nargish_mehandi",
     facebook: "#",
     twitter: "#"
   },
   hero: {
-    title: "Timeless Art by NF Mehandi Designer",
-    highlight: "NF Mehandi Designer",
+    title: "Timeless Art by Nargish",
+    highlight: "Nargish",
     description: "Experience the exquisite beauty of traditional and modern Mehandi designs. Crafted with passion, precision, and natural henna for your wedding, festivals, and celebrations."
   },
   services: [
@@ -31,7 +31,7 @@ export const SITE_DATA = {
     }
   ],
   gallery: [
-    { src: "/gallery1.png", title: "Bridal Henna" },
+    { src: "/gallery1.png", title: "Bridal Mehandi" },
     { src: "/gallery2.png", title: "Arabic Pattern" },
     { src: "/mehandi_hero.png", title: "Floral Design" },
     { src: "/gallery1.png", title: "Full Arm Art" },
@@ -39,16 +39,16 @@ export const SITE_DATA = {
     { src: "/mehandi_hero.png", title: "Traditional Royal" }
   ],
   about: {
-    title: "About NF Mehandi Designer",
+    title: "About Nargish",
     subtitle: "Crafting Beauty Since 2010",
     paragraphs: [
-      "Welcome to NF Mehandi Designer, where we transform traditional henna application into a professional art form. Our journey started with a simple passion for intricate patterns and has evolved into a full-service bridal mehandi destination.",
-      "We use 100% organic, hand-mixed henna to ensure the safest and darkest stain possible. Each design is custom-crafted to reflect the personality and heritage of our clients, making every occasion truly unforgettable."
+      "Welcome to Nargish, where we transform traditional mehandi application into a professional art form. Our journey started with a simple passion for intricate patterns and has evolved into a full-service bridal destination.",
+      "We use 100% organic, hand-mixed mehandi to ensure the safest and darkest stain possible. Each design is custom-crafted to reflect the personality and heritage of our clients, making every occasion truly unforgettable."
     ],
     stats: [
       { label: "Happy Brides", value: "500+" },
       { label: "Years Experience", value: "10+" },
-      { label: "Organic Henna", value: "100%" }
+      { label: "Organic Mehandi", value: "100%" }
     ]
   }
 };
