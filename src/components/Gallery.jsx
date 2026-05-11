@@ -3,9 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, X, Image as ImageIcon, CheckCircle, Loader2, Lock } from 'lucide-react';
 import { SITE_DATA } from '../data';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = '/api';
 const ADMIN_PASSWORD = 'nargish2026'; // Default password
-
 const Gallery = () => {
   const [items, setItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
