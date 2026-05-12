@@ -41,8 +41,9 @@ const Gallery = () => {
       setIsAuth(true);
       setShowAdminLogin(false);
       setTempPass('');
+      setIsModalOpen(true); // Open the add design modal immediately
     } else {
-      alert("Wrong password!");
+      alert("Wrong password! Try: nargish2026");
     }
   };
 
