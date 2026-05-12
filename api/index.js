@@ -1,8 +1,10 @@
-const express = require('express');
-const nodemailer = require('nodemailer');
-const cors = require('cors');
-const mongoose = require('mongoose');
-require('dotenv').config();
+import express from 'express';
+import nodemailer from 'nodemailer';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -17,7 +19,10 @@ const connectDB = async () => {
   if (!MONGODB_URI) return false;
   
   try {
-    // Set timeout to prevent hanging
+    if (mongoose.connection.readyState === 1) {
+      isConnected = true;
+      return true;
+    }
     await mongoose.connect(MONGODB_URI, {
       serverSelectionTimeoutMS: 5000 
     });
@@ -44,29 +49,23 @@ app.get('/api', (req, res) => {
 });
 
 app.get('/api/test', (req, res) => {
-  res.json({ success: true, message: 'Backend is Live' });
+  res.json({ success: true, message: 'Backend is Live (ESM Mode)' });
 });
 
-// Get Designs (With Fallback)
 app.get('/api/designs', async (req, res) => {
-  const dbStatus = await connectDB();
-  if (!dbStatus) {
-    return res.json([]); // Return empty array if DB is not ready
-  }
-  
+  await connectDB();
   try {
     const designs = await Design.find().sort({ createdAt: -1 });
     res.json(designs || []);
   } catch (err) {
-    res.json([]); // Fallback to empty instead of 500
+    res.json([]); 
   }
 });
 
-// Add Design
 app.post('/api/designs', async (req, res) => {
-  const dbStatus = await connectDB();
-  if (!dbStatus) {
-    return res.status(503).json({ error: 'Database not configured. Set MONGODB_URI in Vercel.' });
+  await connectDB();
+  if (!isConnected) {
+    return res.status(503).json({ error: 'Database not configured' });
   }
 
   try {
@@ -79,7 +78,6 @@ app.post('/api/designs', async (req, res) => {
   }
 });
 
-// Send Email
 app.post('/api/send-email', async (req, res) => {
   const { name, email, date, message } = req.body;
 
@@ -105,4 +103,4 @@ app.post('/api/send-email', async (req, res) => {
   }
 });
 
-module.exports = app;
+export default app;
