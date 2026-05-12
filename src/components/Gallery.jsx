@@ -91,21 +91,27 @@ const Gallery = () => {
             {/* Admin Login Trigger */}
             {!isAuth && (
               <button 
-                onClick={() => setShowAdminLogin(true)} 
+                onClick={() => {
+                  console.log("Admin button clicked");
+                  setShowAdminLogin(true);
+                }} 
                 className="flex items-center justify-center"
                 style={{ 
-                  background: 'var(--bg-creme)', 
-                  border: '1px solid rgba(139, 69, 19, 0.2)', 
+                  background: 'var(--white)', 
+                  border: '2px solid var(--primary)', 
                   borderRadius: '50%', 
-                  width: '35px', 
-                  height: '35px', 
+                  width: '40px', 
+                  height: '40px', 
                   cursor: 'pointer',
                   color: 'var(--primary)',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
+                  zIndex: 100,
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
                 }}
                 title="Admin Login"
               >
-                <Lock size={16} />
+                <Lock size={18} />
               </button>
             )}
           </div>
