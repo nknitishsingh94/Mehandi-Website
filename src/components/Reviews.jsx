@@ -77,42 +77,37 @@ const Reviews = () => {
             <Loader2 className="animate-spin text-primary" size={50} />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 max-w-4xl mx-auto px-4">
             {reviews.length > 0 ? reviews.map((r, i) => (
               <div 
                 key={i}
-                className="review-card p-8 rounded-[20px] bg-white relative flex flex-col justify-between"
+                className="review-card p-6 rounded-2xl bg-white relative flex flex-col justify-between"
                 style={{ 
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.03)', 
-                  border: '1px solid #f0f0f0',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.05)', 
+                  border: '1px solid #f5f5f5',
                   textAlign: 'left',
-                  aspectRatio: '1 / 1', // Making it square
-                  minHeight: '300px'
+                  minHeight: '220px'
                 }}
               >
                 <div>
-                  <div className="flex items-center gap-1 mb-4">
+                  <div className="flex items-center gap-1 mb-3">
                     {[...Array(5)].map((_, idx) => (
                       <Star key={idx} size={12} fill={idx < r.rating ? "var(--secondary)" : "none"} color="var(--secondary)" />
                     ))}
                   </div>
-
-                  <Quote className="text-primary opacity-10 mb-2" size={30} />
                   
-                  <p className="text-md italic overflow-hidden" style={{ color: 'var(--text-dark)', lineHeight: '1.6', fontSize: '0.95rem', display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical' }}>
-                    {r.message}
+                  <p className="text-sm italic" style={{ color: 'var(--text-dark)', lineHeight: '1.6', marginBottom: '20px' }}>
+                    "{r.message}"
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3 border-t pt-4 border-gray-50">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm" style={{ background: '#FFF8F0', color: 'var(--primary)' }}>
+                <div className="flex items-center gap-3 border-t pt-4 border-gray-50 mt-auto">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs" style={{ background: 'var(--primary)', color: 'white' }}>
                     {r.name.charAt(0)}
                   </div>
                   <div>
                     <h4 className="font-bold text-sm text-gray-800">{r.name}</h4>
-                    <div className="flex items-center gap-1 text-[9px] uppercase tracking-tighter text-green-600 font-bold">
-                      <ShieldCheck size={10} /> Verified
-                    </div>
+                    <span className="text-[10px] text-green-600 font-bold uppercase tracking-wider">Verified Bride</span>
                   </div>
                 </div>
               </div>
