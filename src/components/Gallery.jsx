@@ -88,30 +88,29 @@ const Gallery = () => {
                 A curated collection of our finest works.
               </p>
             </div>
-            {/* Admin Login Trigger */}
+            {/* Test Admin Button */}
             {!isAuth && (
               <button 
                 onClick={() => {
-                  console.log("Admin button clicked");
+                  alert("Click Works! Popup should open now.");
                   setShowAdminLogin(true);
                 }} 
-                className="flex items-center justify-center"
                 style={{ 
-                  background: 'var(--white)', 
-                  border: '2px solid var(--primary)', 
-                  borderRadius: '50%', 
-                  width: '40px', 
-                  height: '40px', 
+                  position: 'fixed',
+                  bottom: '20px',
+                  right: '20px',
+                  width: '60px',
+                  height: '60px',
+                  borderRadius: '50%',
+                  backgroundColor: 'red', // Red color taaki saaf dikhe
+                  color: 'white',
+                  zIndex: 9999, // Sabse upar
                   cursor: 'pointer',
-                  color: 'var(--primary)',
-                  transition: 'all 0.3s ease',
-                  position: 'relative',
-                  zIndex: 100,
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+                  border: '5px solid white',
+                  boxShadow: '0 0 20px rgba(0,0,0,0.5)'
                 }}
-                title="Admin Login"
               >
-                <Lock size={18} />
+                <Lock size={30} />
               </button>
             )}
           </div>
@@ -145,123 +144,90 @@ const Gallery = () => {
         ) : (
           <div className="grid grid-cols-3 gap-4">
             {items.map((img, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
-                viewport={{ once: true }}
-                className="gallery-item"
-              >
+              <div key={index} className="gallery-item">
                 <img src={img.src} alt={img.title} />
                 <div className="gallery-overlay">
                   <h4 className="text-white font-serif text-2xl" style={{ fontSize: '1.2rem' }}>{img.title}</h4>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
       </div>
 
-      <AnimatePresence>
-        {showAdminLogin && (
-          <div className="fixed w-full h-full top-0 left-0 z-50 flex items-center justify-center p-4">
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setShowAdminLogin(false)}
-              style={{ position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(2px)' }}
-            ></motion.div>
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-              className="modal-content" style={{ maxWidth: '350px' }}
-            >
-              <h3 className="text-xl font-bold mb-4">Admin Login</h3>
-              <form onSubmit={handleAdminLogin}>
-                <input 
-                  type="password" 
-                  className="form-input mb-4" 
-                  placeholder="Password" 
-                  value={tempPass} 
-                  onChange={(e) => setTempPass(e.target.value)} 
-                  autoFocus
-                />
-                <button type="submit" className="btn btn-primary w-full">Login</button>
-              </form>
-            </motion.div>
+      {/* Admin Login Modal (Simple) */}
+      {showAdminLogin && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10000, display: 'flex', alignItems: 'center', justifyCenter: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <div style={{ background: 'white', padding: '30px', borderRadius: '20px', width: '350px', position: 'relative' }}>
+            <h3 className="text-xl font-bold mb-4">Admin Login</h3>
+            <form onSubmit={handleAdminLogin}>
+              <input 
+                type="password" 
+                className="form-input mb-4" 
+                placeholder="Password" 
+                value={tempPass} 
+                onChange={(e) => setTempPass(e.target.value)} 
+                autoFocus
+              />
+              <button type="submit" className="btn btn-primary w-full">Login</button>
+            </form>
+            <button onClick={() => setShowAdminLogin(false)} style={{ position: 'absolute', top: '10px', right: '10px', background: 'none', border: 'none', cursor: 'pointer' }}>X</button>
           </div>
-        )}
+        </div>
+      )}
 
-        {isModalOpen && (
-          <div className="fixed w-full h-full top-0 left-0 z-50 flex items-center justify-center p-4">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
-              style={{ position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
-            ></motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="modal-content"
-              style={{ maxWidth: '450px' }}
-            >
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-serif font-bold">Add New Design</h3>
-                <button onClick={() => setIsModalOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999' }}>
-                  <X size={24} />
-                </button>
+      {/* Add Design Modal (Simple) */}
+      {isModalOpen && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
+          <div style={{ background: 'white', padding: '40px', borderRadius: '30px', width: '450px', maxWidth: '90%', maxHeight: '90vh', overflowY: 'auto', position: 'relative' }}>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-serif font-bold">Add New Design</h3>
+              <button onClick={() => setIsModalOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999' }}>
+                <X size={24} />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddDesign}>
+              <div className="form-group mb-6" style={{ background: '#f8f8f8', padding: '15px', borderRadius: '12px', border: '1px solid #eee' }}>
+                <p className="text-sm opacity-60 mb-2">Admin mode is active</p>
               </div>
 
-              <form onSubmit={handleAddDesign}>
-                <div className="form-group mb-6" style={{ background: '#f8f8f8', padding: '15px', borderRadius: '12px', border: '1px solid #eee' }}>
-                  <p className="text-sm opacity-60 mb-2">Admin mode is active</p>
+              <div className="form-group">
+                <label>Design Title</label>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  placeholder="e.g. Bridal Floral Design"
+                  value={newDesign.title}
+                  onChange={(e) => setNewDesign({...newDesign, title: e.target.value})}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Image URL</label>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  placeholder="Paste image link here..."
+                  value={newDesign.src}
+                  onChange={(e) => setNewDesign({...newDesign, src: e.target.value})}
+                  required
+                />
+              </div>
+              
+              {newDesign.src && (
+                <div className="mb-6" style={{ borderRadius: '15px', overflow: 'hidden', border: '1px solid #eee', height: '120px' }}>
+                  <img src={newDesign.src} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Preview" />
                 </div>
+              )}
 
-                <div className="form-group">
-                  <label>Design Title</label>
-                  <input 
-                    type="text" 
-                    className="form-input" 
-                    placeholder="e.g. Bridal Floral Design"
-                    value={newDesign.title}
-                    onChange={(e) => setNewDesign({...newDesign, title: e.target.value})}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Image URL</label>
-                  <input 
-                    type="text" 
-                    className="form-input" 
-                    placeholder="Paste image link here..."
-                    value={newDesign.src}
-                    onChange={(e) => setNewDesign({...newDesign, src: e.target.value})}
-                    required
-                  />
-                </div>
-                
-                {newDesign.src && (
-                  <div className="mb-6" style={{ borderRadius: '15px', overflow: 'hidden', border: '1px solid #eee', height: '120px' }}>
-                    <img 
-                      src={newDesign.src} 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                      alt="Preview"
-                      onError={(e) => e.target.style.display = 'none'} 
-                    />
-                  </div>
-                )}
-
-                <button type="submit" className="btn btn-primary w-full flex items-center justify-center gap-2">
-                  <ImageIcon size={18} /> Add to Gallery
-                </button>
-              </form>
-            </motion.div>
+              <button type="submit" className="btn btn-primary w-full flex items-center justify-center gap-2">
+                <ImageIcon size={18} /> Add to Gallery
+              </button>
+            </form>
           </div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </section>
   );
 };
