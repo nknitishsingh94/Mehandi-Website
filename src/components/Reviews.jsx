@@ -54,9 +54,7 @@ const Reviews = () => {
       <div className="container">
         <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
           <div className="text-left">
-            <span className="text-primary font-bold tracking-widest uppercase mb-2 block" style={{ fontSize: '0.8rem' }}>Testimonials</span>
             <h2 className="text-5xl font-serif font-bold" style={{ margin: 0 }}>What Our Brides Say</h2>
-            <div style={{ width: '80px', height: '4px', backgroundColor: 'var(--secondary)', marginTop: '10px', borderRadius: '2px' }}></div>
           </div>
           <div className="w-full md:w-auto">
             <button 
