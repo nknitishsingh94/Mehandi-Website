@@ -77,28 +77,32 @@ const Reviews = () => {
             <Loader2 className="animate-spin text-primary" size={50} />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
             {reviews.length > 0 ? reviews.map((r, i) => (
               <div 
                 key={i}
-                className="review-card p-6 rounded-[25px] bg-white relative"
+                className="review-card p-8 rounded-[20px] bg-white relative flex flex-col justify-between"
                 style={{ 
                   boxShadow: '0 10px 30px rgba(0,0,0,0.03)', 
                   border: '1px solid #f0f0f0',
-                  textAlign: 'left'
+                  textAlign: 'left',
+                  aspectRatio: '1 / 1', // Making it square
+                  minHeight: '300px'
                 }}
               >
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, idx) => (
-                    <Star key={idx} size={12} fill={idx < r.rating ? "var(--secondary)" : "none"} color="var(--secondary)" />
-                  ))}
-                </div>
+                <div>
+                  <div className="flex items-center gap-1 mb-4">
+                    {[...Array(5)].map((_, idx) => (
+                      <Star key={idx} size={12} fill={idx < r.rating ? "var(--secondary)" : "none"} color="var(--secondary)" />
+                    ))}
+                  </div>
 
-                <Quote className="text-primary opacity-10 mb-2" size={30} />
-                
-                <p className="text-md mb-6 italic" style={{ color: 'var(--text-dark)', lineHeight: '1.6', fontSize: '0.95rem' }}>
-                  {r.message}
-                </p>
+                  <Quote className="text-primary opacity-10 mb-2" size={30} />
+                  
+                  <p className="text-md italic overflow-hidden" style={{ color: 'var(--text-dark)', lineHeight: '1.6', fontSize: '0.95rem', display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical' }}>
+                    {r.message}
+                  </p>
+                </div>
 
                 <div className="flex items-center gap-3 border-t pt-4 border-gray-50">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm" style={{ background: '#FFF8F0', color: 'var(--primary)' }}>
