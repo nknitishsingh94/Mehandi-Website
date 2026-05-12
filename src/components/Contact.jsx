@@ -6,7 +6,7 @@ import { SITE_DATA } from '../data';
 const API_URL = '/api';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', date: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', date: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -23,7 +23,7 @@ const Contact = () => {
 
       if (response.ok) {
         setSuccess(true);
-        setFormData({ name: '', email: '', date: '', message: '' });
+        setFormData({ name: '', email: '', phone: '', date: '', message: '' });
         setTimeout(() => setSuccess(false), 5000);
       } else {
         const errorData = await response.json();
@@ -125,6 +125,17 @@ const Contact = () => {
                     placeholder="Your Email" 
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    required 
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Mobile Number</label>
+                  <input 
+                    type="tel" 
+                    className="form-input" 
+                    placeholder="Your Mobile Number" 
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     required 
                   />
                 </div>

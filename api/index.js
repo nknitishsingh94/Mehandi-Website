@@ -79,7 +79,7 @@ app.post('/api/designs', async (req, res) => {
 });
 
 app.post('/api/send-email', async (req, res) => {
-  const { name, email, date, message } = req.body;
+  const { name, email, phone, date, message } = req.body;
 
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     return res.status(500).json({ error: 'Server Email Config Missing' });
@@ -95,7 +95,7 @@ app.post('/api/send-email', async (req, res) => {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_RECEIVER || 'nknitishsingh94@gmail.com',
       subject: `Inquiry: ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nDate: ${date}\nMessage: ${message}`
+      text: `Name: ${name}\nEmail: ${email}\nMobile: ${phone}\nDate: ${date}\nMessage: ${message}`
     });
     res.json({ success: true });
   } catch (err) {
