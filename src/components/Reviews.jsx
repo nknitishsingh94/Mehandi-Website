@@ -52,19 +52,21 @@ const Reviews = () => {
   return (
     <section className="section-padding" style={{ backgroundColor: '#fff', position: 'relative' }}>
       <div className="container">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
           <div className="text-left">
             <span className="text-primary font-bold tracking-widest uppercase mb-2 block" style={{ fontSize: '0.8rem' }}>Testimonials</span>
-            <h2 className="text-5xl font-serif font-bold">What Our Brides Say</h2>
-            <div style={{ width: '80px', height: '4px', backgroundColor: 'var(--secondary)', marginTop: '15px', borderRadius: '2px' }}></div>
+            <h2 className="text-5xl font-serif font-bold" style={{ margin: 0 }}>What Our Brides Say</h2>
+            <div style={{ width: '80px', height: '4px', backgroundColor: 'var(--secondary)', marginTop: '10px', borderRadius: '2px' }}></div>
           </div>
-          <button 
-            onClick={() => setShowForm(true)} 
-            className="btn btn-primary flex items-center gap-2"
-            style={{ borderRadius: '15px', padding: '15px 30px' }}
-          >
-            <MessageCirclePlus size={20} /> Share Your Experience
-          </button>
+          <div className="w-full md:w-auto">
+            <button 
+              onClick={() => setShowForm(true)} 
+              className="btn btn-primary flex items-center justify-center gap-2"
+              style={{ borderRadius: '15px', padding: '12px 25px', width: 'auto', display: 'inline-flex' }}
+            >
+              <MessageCirclePlus size={20} /> Share Your Experience
+            </button>
+          </div>
         </div>
 
         {fetching ? (
