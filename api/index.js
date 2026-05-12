@@ -84,14 +84,22 @@ app.get('/api/designs', async (req, res) => {
 app.get('/api/stats', async (req, res) => {
   await connectDB();
   try {
+    // Force reset for one time if needed, or just find
     let stats = await Stat.findOne({ key: 'happyBrides' });
+    
+    // YAHAN FORCE RESET: Agar aap chahte hain ki abhi ke abhi 0 ho jaye
+    if (stats && stats.value > 10) { // Agar 500+ wala purana data hai
+       stats.value = 0;
+       await stats.save();
+    }
+
     if (!stats) {
-      stats = new Stat({ key: 'happyBrides', value: 0 }); // Starting from 0 now
+      stats = new Stat({ key: 'happyBrides', value: 0 });
       await stats.save();
     }
     res.json({ happyBrides: stats.value });
   } catch (err) {
-    res.json({ happyBrides: 500 });
+    res.json({ happyBrides: 0 });
   }
 });
 
