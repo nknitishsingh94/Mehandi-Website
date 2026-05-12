@@ -52,15 +52,20 @@ const Reviews = () => {
   return (
     <section className="section-padding" style={{ backgroundColor: '#fff', position: 'relative' }}>
       <div className="container">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
-          <div className="text-left">
+        <div className="flex flex-col items-center text-center mb-16 gap-6">
+          <div className="text-center">
             <h2 className="text-5xl font-serif font-bold" style={{ margin: 0 }}>What Our Brides Say</h2>
           </div>
-          <div className="w-full md:w-auto">
+          <div className="w-full flex justify-center">
             <button 
               onClick={() => setShowForm(true)} 
               className="btn btn-primary flex items-center justify-center gap-2"
-              style={{ borderRadius: '15px', padding: '12px 25px', width: 'auto', display: 'inline-flex' }}
+              style={{ 
+                borderRadius: '15px', 
+                padding: '12px 25px', 
+                width: 'auto', 
+                display: 'inline-flex' 
+              }}
             >
               <MessageCirclePlus size={20} /> Share Your Experience
             </button>
@@ -76,34 +81,33 @@ const Reviews = () => {
             {reviews.length > 0 ? reviews.map((r, i) => (
               <div 
                 key={i}
-                className="review-card p-10 rounded-[40px] bg-white relative"
+                className="review-card p-6 rounded-[25px] bg-white relative"
                 style={{ 
-                  boxShadow: '0 15px 45px rgba(0,0,0,0.04)', 
-                  border: '1px solid #f8f8f8'
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.03)', 
+                  border: '1px solid #f0f0f0',
+                  textAlign: 'left'
                 }}
               >
-                <div className="flex items-center gap-1 mb-6">
+                <div className="flex items-center gap-1 mb-4">
                   {[...Array(5)].map((_, idx) => (
-                    <Star key={idx} size={14} fill={idx < r.rating ? "var(--secondary)" : "none"} color="var(--secondary)" />
+                    <Star key={idx} size={12} fill={idx < r.rating ? "var(--secondary)" : "none"} color="var(--secondary)" />
                   ))}
                 </div>
 
-                <Quote className="text-primary opacity-10 mb-4" size={40} />
+                <Quote className="text-primary opacity-10 mb-2" size={30} />
                 
-                <p className="text-lg mb-8 italic" style={{ color: 'var(--text-dark)', lineHeight: '1.8', minHeight: '100px' }}>
+                <p className="text-md mb-6 italic" style={{ color: 'var(--text-dark)', lineHeight: '1.6', fontSize: '0.95rem' }}>
                   {r.message}
                 </p>
 
-                <div className="flex items-center justify-between border-t pt-6 border-gray-50">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-lg" style={{ background: '#FFF8F0', color: 'var(--primary)' }}>
-                      {r.name.charAt(0)}
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-gray-800">{r.name}</h4>
-                      <div className="flex items-center gap-1 text-[10px] uppercase tracking-tighter text-green-600 font-bold">
-                        <ShieldCheck size={12} /> Verified Client
-                      </div>
+                <div className="flex items-center gap-3 border-t pt-4 border-gray-50">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm" style={{ background: '#FFF8F0', color: 'var(--primary)' }}>
+                    {r.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-gray-800">{r.name}</h4>
+                    <div className="flex items-center gap-1 text-[9px] uppercase tracking-tighter text-green-600 font-bold">
+                      <ShieldCheck size={10} /> Verified
                     </div>
                   </div>
                 </div>
@@ -116,54 +120,51 @@ const Reviews = () => {
           </div>
         )}
 
-        {/* Review Form Modal (Simple Style) */}
+        {/* Review Form Modal (Small & Elegant) */}
         {showForm && (
-          <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}>
-            <div style={{ background: 'white', padding: '40px', borderRadius: '30px', width: '500px', maxWidth: '95%', position: 'relative' }}>
-              <button onClick={() => setShowForm(false)} style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', cursor: 'pointer' }}><X size={24} /></button>
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}>
+            <div style={{ background: 'white', padding: '30px', borderRadius: '25px', width: '400px', maxWidth: '95%', position: 'relative', boxShadow: '0 20px 50px rgba(0,0,0,0.2)' }}>
+              <button onClick={() => setShowForm(false)} style={{ position: 'absolute', top: '15px', right: '15px', background: 'none', border: 'none', cursor: 'pointer', color: '#999' }}><X size={20} /></button>
               
-              <h3 className="text-3xl font-serif font-bold mb-2">Share the Love</h3>
-              <p className="text-sm text-gray-400 mb-8">Your feedback helps us grow.</p>
+              <h3 className="text-2xl font-serif font-bold mb-1">Share Love</h3>
+              <p className="text-xs text-gray-400 mb-6">Your feedback means a lot!</p>
               
               <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="form-group">
-                    <label className="text-xs font-bold uppercase mb-2 block">Name</label>
-                    <input 
-                      type="text" className="form-input" placeholder="Your Name"
-                      value={newReview.name} onChange={(e) => setNewReview({...newReview, name: e.target.value})}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="text-xs font-bold uppercase mb-2 block">Rating</label>
-                    <select 
-                      className="form-input"
-                      value={newReview.rating} onChange={(e) => setNewReview({...newReview, rating: parseInt(e.target.value)})}
-                    >
-                      <option value="5">⭐⭐⭐⭐⭐ 5/5</option>
-                      <option value="4">⭐⭐⭐⭐ 4/5</option>
-                      <option value="3">⭐⭐⭐ 3/5</option>
-                      <option value="2">⭐⭐ 2/5</option>
-                      <option value="1">⭐ 1/5</option>
-                    </select>
-                  </div>
+                <div className="form-group mb-4">
+                  <label className="text-[10px] font-bold uppercase mb-1 block opacity-50">Full Name</label>
+                  <input 
+                    type="text" className="form-input" style={{ padding: '10px' }} placeholder="Your Name"
+                    value={newReview.name} onChange={(e) => setNewReview({...newReview, name: e.target.value})}
+                    required
+                  />
                 </div>
                 
-                <div className="form-group mb-8">
-                  <label className="text-xs font-bold uppercase mb-2 block">Message</label>
+                <div className="form-group mb-4">
+                  <label className="text-[10px] font-bold uppercase mb-1 block opacity-50">Your Rating</label>
+                  <select 
+                    className="form-input" style={{ padding: '10px' }}
+                    value={newReview.rating} onChange={(e) => setNewReview({...newReview, rating: parseInt(e.target.value)})}
+                  >
+                    <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+                    <option value="4">⭐⭐⭐⭐ (Great)</option>
+                    <option value="3">⭐⭐⭐ (Good)</option>
+                    <option value="2">⭐⭐ (Average)</option>
+                    <option value="1">⭐ (Poor)</option>
+                  </select>
+                </div>
+                
+                <div className="form-group mb-6">
+                  <label className="text-[10px] font-bold uppercase mb-1 block opacity-50">Review Message</label>
                   <textarea 
-                    className="form-input" rows="4" placeholder="Describe your experience..."
+                    className="form-input" rows="3" style={{ padding: '10px' }} placeholder="Tell us what you liked..."
                     value={newReview.message} onChange={(e) => setNewReview({...newReview, message: e.target.value})}
                     required
                   ></textarea>
                 </div>
 
-                <div className="flex gap-4">
-                  <button type="submit" className="btn btn-primary flex-1 py-4 flex items-center justify-center gap-2" disabled={loading}>
-                    {loading ? <Loader2 className="animate-spin" /> : <Send size={18} />} Post Review
-                  </button>
-                </div>
+                <button type="submit" className="btn btn-primary w-full py-3 flex items-center justify-center gap-2" style={{ borderRadius: '12px' }} disabled={loading}>
+                  {loading ? <Loader2 className="animate-spin" size={18} /> : <Send size={16} />} Submit Review
+                </button>
               </form>
             </div>
           </div>
