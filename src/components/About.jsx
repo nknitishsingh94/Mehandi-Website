@@ -3,18 +3,18 @@ import { motion } from 'framer-motion';
 import { SITE_DATA } from '../data';
 
 const About = () => {
-  const [happyBrides, setHappyBrides] = useState('500+');
+  const [happyBrides, setHappyBrides] = useState('0+');
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const response = await fetch('/api/stats');
         const data = await response.json();
-        if (data.happyBrides) {
+        if (data.happyBrides !== undefined) {
           setHappyBrides(`${data.happyBrides}+`);
         }
       } catch (err) {
-        console.error("Stats fetch error:", err);
+        setHappyBrides('0+');
       }
     };
     fetchStats();
