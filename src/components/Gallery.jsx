@@ -88,29 +88,28 @@ const Gallery = () => {
                 A curated collection of our finest works.
               </p>
             </div>
-            {/* Test Admin Button */}
+            {/* Admin Login Trigger */}
             {!isAuth && (
               <button 
                 onClick={() => {
-                  alert("Click Works! Popup should open now.");
                   setShowAdminLogin(true);
                 }} 
+                className="flex items-center justify-center"
                 style={{ 
-                  position: 'fixed',
-                  bottom: '20px',
-                  right: '20px',
-                  width: '60px',
-                  height: '60px',
-                  borderRadius: '50%',
-                  backgroundColor: 'red', // Red color taaki saaf dikhe
-                  color: 'white',
-                  zIndex: 9999, // Sabse upar
+                  background: 'var(--white)', 
+                  border: '1px solid var(--primary)', 
+                  borderRadius: '50%', 
+                  width: '35px', 
+                  height: '35px', 
                   cursor: 'pointer',
-                  border: '5px solid white',
-                  boxShadow: '0 0 20px rgba(0,0,0,0.5)'
+                  color: 'var(--primary)',
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
+                  zIndex: 10
                 }}
+                title="Admin Login"
               >
-                <Lock size={30} />
+                <Lock size={16} />
               </button>
             )}
           </div>
@@ -157,7 +156,7 @@ const Gallery = () => {
 
       {/* Admin Login Modal (Simple) */}
       {showAdminLogin && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10000, display: 'flex', alignItems: 'center', justifyCenter: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <div style={{ background: 'white', padding: '30px', borderRadius: '20px', width: '350px', position: 'relative' }}>
             <h3 className="text-xl font-bold mb-4">Admin Login</h3>
             <form onSubmit={handleAdminLogin}>
