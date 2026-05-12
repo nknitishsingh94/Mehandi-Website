@@ -11,8 +11,9 @@ const Gallery = () => {
   const [newDesign, setNewDesign] = useState({ src: '', title: '' });
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [authPassword, setAuthPassword] = useState('');
   const [isAuth, setIsAuth] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [tempPass, setTempPass] = useState('');
 
   const fetchDesigns = async () => {
     try {
@@ -34,15 +35,20 @@ const Gallery = () => {
     fetchDesigns();
   }, []);
 
+  const handleAdminLogin = (e) => {
+    e.preventDefault();
+    if (tempPass === ADMIN_PASSWORD) {
+      setIsAuth(true);
+      setShowAdminLogin(false);
+      setTempPass('');
+    } else {
+      alert("Wrong password!");
+    }
+  };
+
   const handleAddDesign = async (e) => {
     e.preventDefault();
     
-    // Check Admin Password
-    if (authPassword !== ADMIN_PASSWORD) {
-      alert("Invalid Admin Password! Only the owner can add designs.");
-      return;
-    }
-
     if (!newDesign.src || !newDesign.title) {
       alert("Please fill in both title and image URL!");
       return;
@@ -59,7 +65,6 @@ const Gallery = () => {
         setShowSuccess(true);
         setTimeout(() => setShowSuccess(false), 3000);
         setNewDesign({ src: '', title: '' });
-        setAuthPassword('');
         setIsModalOpen(false);
         fetchDesigns();
       } else {
@@ -67,7 +72,7 @@ const Gallery = () => {
       }
     } catch (err) {
       console.error("Error saving design:", err);
-      alert("Could not connect to server. Ensure your backend is running.");
+      alert("Could not connect to server.");
     }
   };
 
@@ -75,19 +80,31 @@ const Gallery = () => {
     <section id="gallery" className="section-padding" style={{ backgroundColor: '#fff' }}>
       <div className="container">
         <div className="flex justify-between items-center mb-8" style={{ flexWrap: 'wrap', gap: '1rem' }}>
-          <div className="text-left">
-            <h2 className="text-4xl font-serif font-bold mb-2">Our Masterpieces</h2>
-            <p style={{ color: 'var(--text-light)', maxWidth: '600px' }}>
-              A curated collection of our finest works. (Owner can add new designs below)
-            </p>
+          <div className="text-left flex items-center gap-4">
+            <div>
+              <h2 className="text-4xl font-serif font-bold mb-2">Our Masterpieces</h2>
+              <p style={{ color: 'var(--text-light)', maxWidth: '600px' }}>
+                A curated collection of our finest works.
+              </p>
+            </div>
+            {/* Hidden Login Trigger */}
+            <button 
+              onClick={() => setShowAdminLogin(true)} 
+              style={{ background: 'none', border: 'none', opacity: 0.1, cursor: 'default' }}
+            >
+              <Lock size={12} />
+            </button>
           </div>
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="btn btn-primary flex items-center gap-2"
-            style={{ whiteSpace: 'nowrap' }}
-          >
-            <Plus size={20} /> Add Design
-          </button>
+
+          {isAuth && (
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="btn btn-primary flex items-center gap-2"
+              style={{ whiteSpace: 'nowrap' }}
+            >
+              <Plus size={20} /> Add Design
+            </button>
+          )}
         </div>
 
         {showSuccess && (
@@ -127,6 +144,33 @@ const Gallery = () => {
       </div>
 
       <AnimatePresence>
+        {showAdminLogin && (
+          <div className="fixed w-full h-full top-0 left-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setShowAdminLogin(false)}
+              style={{ position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(2px)' }}
+            ></motion.div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
+              className="modal-content" style={{ maxWidth: '350px' }}
+            >
+              <h3 className="text-xl font-bold mb-4">Admin Login</h3>
+              <form onSubmit={handleAdminLogin}>
+                <input 
+                  type="password" 
+                  className="form-input mb-4" 
+                  placeholder="Password" 
+                  value={tempPass} 
+                  onChange={(e) => setTempPass(e.target.value)} 
+                  autoFocus
+                />
+                <button type="submit" className="btn btn-primary w-full">Login</button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+
         {isModalOpen && (
           <div className="fixed w-full h-full top-0 left-0 z-50 flex items-center justify-center p-4">
             <motion.div 
@@ -153,15 +197,7 @@ const Gallery = () => {
 
               <form onSubmit={handleAddDesign}>
                 <div className="form-group mb-6" style={{ background: '#f8f8f8', padding: '15px', borderRadius: '12px', border: '1px solid #eee' }}>
-                  <label className="flex items-center gap-2 mb-2"><Lock size={16} /> Admin Password</label>
-                  <input 
-                    type="password" 
-                    className="form-input" 
-                    placeholder="Enter admin password to unlock"
-                    value={authPassword}
-                    onChange={(e) => setAuthPassword(e.target.value)}
-                    required
-                  />
+                  <p className="text-sm opacity-60 mb-2">Admin mode is active</p>
                 </div>
 
                 <div className="form-group">
