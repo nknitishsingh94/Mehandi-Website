@@ -77,7 +77,7 @@ const Reviews = () => {
             <Loader2 className="animate-spin text-primary" size={50} />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {reviews.length > 0 ? reviews.map((r, i) => (
               <div 
                 key={i}
