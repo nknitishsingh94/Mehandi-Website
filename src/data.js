@@ -2,7 +2,7 @@ export const SITE_DATA = {
   name: "Nargish",
   phone: "+91 87959 19866",
   email: "nknitishsingh94@gmail.com",
-  location: "Mumbai, Maharashtra, India",
+  location: "Fazilnagar, Kushinagar, India",
   socials: {
     instagram: "nargish_mehandi",
     facebook: "#",
