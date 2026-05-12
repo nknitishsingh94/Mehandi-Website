@@ -87,13 +87,26 @@ const Gallery = () => {
                 A curated collection of our finest works.
               </p>
             </div>
-            {/* Hidden Login Trigger */}
-            <button 
-              onClick={() => setShowAdminLogin(true)} 
-              style={{ background: 'none', border: 'none', opacity: 0.1, cursor: 'default' }}
-            >
-              <Lock size={12} />
-            </button>
+            {/* Admin Login Trigger */}
+            {!isAuth && (
+              <button 
+                onClick={() => setShowAdminLogin(true)} 
+                className="flex items-center justify-center"
+                style={{ 
+                  background: 'var(--bg-creme)', 
+                  border: '1px solid rgba(139, 69, 19, 0.2)', 
+                  borderRadius: '50%', 
+                  width: '35px', 
+                  height: '35px', 
+                  cursor: 'pointer',
+                  color: 'var(--primary)',
+                  transition: 'all 0.3s ease'
+                }}
+                title="Admin Login"
+              >
+                <Lock size={16} />
+              </button>
+            )}
           </div>
 
           {isAuth && (
