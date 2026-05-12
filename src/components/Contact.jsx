@@ -5,8 +5,24 @@ import { SITE_DATA } from '../data';
 
 const API_URL = '/api';
 
+const COUNTRY_CODES = [
+  { code: '+91', name: 'India' },
+  { code: '+1', name: 'USA/Canada' },
+  { code: '+44', name: 'UK' },
+  { code: '+971', name: 'UAE' },
+  { code: '+61', name: 'Australia' },
+  { code: '+966', name: 'Saudi Arabia' },
+  { code: '+92', name: 'Pakistan' },
+  { code: '+880', name: 'Bangladesh' },
+  { code: '+65', name: 'Singapore' },
+  { code: '+60', name: 'Malaysia' },
+  { code: '+49', name: 'Germany' },
+  { code: '+33', name: 'France' },
+  { code: '+81', name: 'Japan' }
+];
+
 const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', date: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', countryCode: '+91', phone: '', date: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -23,7 +39,7 @@ const Contact = () => {
 
       if (response.ok) {
         setSuccess(true);
-        setFormData({ name: '', email: '', phone: '', date: '', message: '' });
+        setFormData({ name: '', email: '', countryCode: '+91', phone: '', date: '', message: '' });
         setTimeout(() => setSuccess(false), 5000);
       } else {
         const errorData = await response.json();
@@ -130,14 +146,27 @@ const Contact = () => {
                 </div>
                 <div className="form-group">
                   <label>Mobile Number</label>
-                  <input 
-                    type="tel" 
-                    className="form-input" 
-                    placeholder="Your Mobile Number" 
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    required 
-                  />
+                  <div className="flex gap-2">
+                    <select 
+                      className="form-input" 
+                      style={{ width: '130px', padding: '12px 5px' }}
+                      value={formData.countryCode}
+                      onChange={(e) => setFormData({...formData, countryCode: e.target.value})}
+                    >
+                      {COUNTRY_CODES.map(c => (
+                        <option key={c.code} value={c.code}>{c.code} ({c.name})</option>
+                      ))}
+                    </select>
+                    <input 
+                      type="tel" 
+                      className="form-input" 
+                      style={{ flex: 1 }}
+                      placeholder="Your Mobile Number" 
+                      value={formData.phone}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      required 
+                    />
+                  </div>
                 </div>
                 <div className="form-group">
                   <label>Occasion Date</label>
