@@ -38,10 +38,9 @@ const Gallery = () => {
   const handleAdminLogin = (e) => {
     e.preventDefault();
     if (tempPass === ADMIN_PASSWORD) {
-      setIsAuth(true);
       setShowAdminLogin(false);
       setTempPass('');
-      setIsModalOpen(true); // Open the add design modal immediately
+      setIsModalOpen(true); // Open add design modal
     } else {
       alert("Wrong password! Try: nargish2026");
     }
@@ -88,41 +87,30 @@ const Gallery = () => {
                 A curated collection of our finest works.
               </p>
             </div>
-            {/* Admin Login Trigger */}
-            {!isAuth && (
-              <button 
-                onClick={() => {
-                  setShowAdminLogin(true);
-                }} 
-                className="flex items-center justify-center"
-                style={{ 
-                  background: 'var(--white)', 
-                  border: '1px solid var(--primary)', 
-                  borderRadius: '50%', 
-                  width: '35px', 
-                  height: '35px', 
-                  cursor: 'pointer',
-                  color: 'var(--primary)',
-                  transition: 'all 0.3s ease',
-                  position: 'relative',
-                  zIndex: 10
-                }}
-                title="Admin Login"
-              >
-                <Lock size={16} />
-              </button>
-            )}
-          </div>
-
-          {isAuth && (
+            {/* Admin Action Button (Always asks password) */}
             <button 
-              onClick={() => setIsModalOpen(true)}
-              className="btn btn-primary flex items-center gap-2"
-              style={{ whiteSpace: 'nowrap' }}
+              onClick={() => {
+                setShowAdminLogin(true);
+              }} 
+              className="flex items-center justify-center"
+              style={{ 
+                background: 'var(--white)', 
+                border: '1px solid var(--primary)', 
+                borderRadius: '50%', 
+                width: '45px', 
+                height: '45px', 
+                cursor: 'pointer',
+                color: 'var(--primary)',
+                transition: 'all 0.3s ease',
+                position: 'relative',
+                zIndex: 10,
+                boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+              }}
+              title="Admin Login"
             >
-              <Plus size={20} /> Add Design
+              <Lock size={20} />
             </button>
-          )}
+          </div>
         </div>
 
         {showSuccess && (
