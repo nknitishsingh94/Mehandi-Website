@@ -77,41 +77,38 @@ const Reviews = () => {
             <Loader2 className="animate-spin text-primary" size={50} />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12 max-w-5xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {reviews.length > 0 ? reviews.map((r, i) => (
               <div 
                 key={i}
-                className="review-card p-10 rounded-[30px] bg-white relative flex flex-col items-center justify-center text-center"
+                className="review-card p-6 rounded-[25px] bg-white relative flex flex-col items-center justify-center text-center"
                 style={{ 
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.06)', 
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.05)', 
                   border: '1px solid #f0f0f0',
                   aspectRatio: '1 / 1', // Perfect Square
                   width: '100%',
-                  maxWidth: '400px',
                   margin: '0 auto'
                 }}
               >
-                <div className="mb-6">
-                  <div className="flex justify-center gap-1 mb-4">
+                <div className="mb-4">
+                  <div className="flex justify-center gap-1 mb-3">
                     {[...Array(5)].map((_, idx) => (
-                      <Star key={idx} size={16} fill={idx < r.rating ? "var(--secondary)" : "none"} color="var(--secondary)" />
+                      <Star key={idx} size={14} fill={idx < r.rating ? "var(--secondary)" : "none"} color="var(--secondary)" />
                     ))}
                   </div>
                   
-                  <Quote className="text-primary opacity-5 mx-auto mb-4" size={50} />
-                  
-                  <p className="text-lg italic" style={{ color: 'var(--text-dark)', lineHeight: '1.6', margin: '0 10px' }}>
+                  <p className="text-sm italic" style={{ color: 'var(--text-dark)', lineHeight: '1.5', margin: '0 5px' }}>
                     "{r.message}"
                   </p>
                 </div>
 
-                <div className="mt-4">
-                  <div className="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center font-bold text-xl shadow-lg" style={{ background: 'linear-gradient(135deg, var(--primary) 0%, #a0522d 100%)', color: 'white' }}>
+                <div className="mt-2">
+                  <div className="w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center font-bold text-md shadow-md" style={{ background: 'var(--primary)', color: 'white' }}>
                     {r.name.charAt(0)}
                   </div>
-                  <h4 className="font-bold text-lg text-gray-800 mb-1">{r.name}</h4>
-                  <div className="flex items-center justify-center gap-1 text-[11px] uppercase tracking-widest text-green-600 font-bold">
-                    <ShieldCheck size={14} /> Verified Bride
+                  <h4 className="font-bold text-md text-gray-800 mb-1">{r.name}</h4>
+                  <div className="flex items-center justify-center gap-1 text-[9px] uppercase tracking-wider text-green-600 font-bold">
+                    <ShieldCheck size={12} /> Verified Bride
                   </div>
                 </div>
               </div>
