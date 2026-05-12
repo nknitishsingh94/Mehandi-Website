@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { SITE_DATA } from '../data';
 
 const About = () => {
+  const [happyBrides, setHappyBrides] = useState('500+');
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch('/api/stats');
+        const data = await response.json();
+        if (data.happyBrides) {
+          setHappyBrides(`${data.happyBrides}+`);
+        }
+      } catch (err) {
+        console.error("Stats fetch error:", err);
+      }
+    };
+    fetchStats();
+  }, []);
+
   return (
     <section id="about" className="section-padding" style={{ backgroundColor: '#fffaf5' }}>
       <div className="container">
@@ -34,12 +51,15 @@ const About = () => {
             ))}
 
             <div className="grid grid-cols-3 gap-4 mt-8">
-              {SITE_DATA.about.stats.map((stat, i) => (
-                <div key={i} className="text-center p-4 rounded-xl" style={{ backgroundColor: 'white', border: '1px solid #f0f0f0' }}>
-                  <h3 className="text-3xl font-serif font-bold text-primary mb-1">{stat.value}</h3>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '1px' }}>{stat.label}</p>
-                </div>
-              ))}
+              {SITE_DATA.about.stats.map((stat, i) => {
+                const displayValue = stat.label === "Happy Brides" ? happyBrides : stat.value;
+                return (
+                  <div key={i} className="text-center p-4 rounded-xl" style={{ backgroundColor: 'white', border: '1px solid #f0f0f0' }}>
+                    <h3 className="text-3xl font-serif font-bold text-primary mb-1">{displayValue}</h3>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '1px' }}>{stat.label}</p>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         </div>

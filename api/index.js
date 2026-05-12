@@ -43,6 +43,24 @@ const designSchema = new mongoose.Schema({
 
 const Design = mongoose.models.Design || mongoose.model('Design', designSchema);
 
+// Stat Schema (for dynamic counters)
+const statSchema = new mongoose.Schema({
+  key: { type: String, unique: true },
+  value: { type: Number, default: 0 }
+});
+
+const Stat = mongoose.models.Stat || mongoose.model('Stat', statSchema);
+
+// Review Schema
+const reviewSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  message: { type: String, required: true },
+  rating: { type: Number, default: 5 },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Review = mongoose.models.Review || mongoose.model('Review', reviewSchema);
+
 // Routes
 app.get('/api', (req, res) => {
   res.json({ status: 'Active', database: isConnected ? 'Connected' : 'Standby' });
@@ -59,6 +77,52 @@ app.get('/api/designs', async (req, res) => {
     res.json(designs || []);
   } catch (err) {
     res.json([]); 
+  }
+});
+
+// Get Stats
+app.get('/api/stats', async (req, res) => {
+  await connectDB();
+  try {
+    let stats = await Stat.findOne({ key: 'happyBrides' });
+    if (!stats) {
+      stats = new Stat({ key: 'happyBrides', value: 500 }); // Starting from 500
+      await stats.save();
+    }
+    res.json({ happyBrides: stats.value });
+  } catch (err) {
+    res.json({ happyBrides: 500 });
+  }
+});
+
+// Reviews API
+app.get('/api/reviews', async (req, res) => {
+  await connectDB();
+  try {
+    const reviews = await Review.find().sort({ createdAt: -1 }).limit(10);
+    res.json(reviews || []);
+  } catch (err) {
+    res.json([]);
+  }
+});
+
+app.post('/api/reviews', async (req, res) => {
+  await connectDB();
+  try {
+    const { name, message, rating } = req.body;
+    const newReview = new Review({ name, message, rating });
+    await newReview.save();
+    
+    // Increment Happy Brides count for each review too
+    await Stat.findOneAndUpdate(
+      { key: 'happyBrides' },
+      { $inc: { value: 1 } },
+      { upsert: true }
+    );
+    
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save review' });
   }
 });
 
@@ -97,6 +161,18 @@ app.post('/api/send-email', async (req, res) => {
       subject: `Inquiry: ${name}`,
       text: `Name: ${name}\nEmail: ${email}\nMobile: ${countryCode} ${phone}\nDate: ${date}\nMessage: ${message}`
     });
+
+    // Increment Happy Brides count on successful contact
+    try {
+      await Stat.findOneAndUpdate(
+        { key: 'happyBrides' },
+        { $inc: { value: 1 } },
+        { upsert: true }
+      );
+    } catch (e) {
+      console.error("Counter update failed", e);
+    }
+
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: 'Mail failed' });
