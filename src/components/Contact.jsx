@@ -149,7 +149,7 @@ const Contact = () => {
                     required
                   ></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary w-full flex items-center justify-center gap-2" disabled={loading}>
+                <button type="submit" className="btn btn-primary flex items-center justify-center gap-2" disabled={loading}>
                   {loading ? <Loader2 className="animate-spin" size={20} /> : <Send size={20} />}
                   {loading ? 'Sending...' : 'Send Message'}
                 </button>
