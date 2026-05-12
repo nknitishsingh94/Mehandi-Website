@@ -86,7 +86,7 @@ app.get('/api/stats', async (req, res) => {
   try {
     let stats = await Stat.findOne({ key: 'happyBrides' });
     if (!stats) {
-      stats = new Stat({ key: 'happyBrides', value: 500 }); // Starting from 500
+      stats = new Stat({ key: 'happyBrides', value: 0 }); // Starting from 0 now
       await stats.save();
     }
     res.json({ happyBrides: stats.value });
