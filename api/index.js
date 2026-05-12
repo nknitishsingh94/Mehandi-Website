@@ -84,7 +84,7 @@ app.get('/api/designs', async (req, res) => {
 app.get('/api/stats', async (req, res) => {
   await connectDB();
   try {
-    // Force reset for one time if needed, or just find
+    // Force reset for one time if needed, or just fin
     let stats = await Stat.findOne({ key: 'happyBrides' });
     
     if (stats && stats.value > 10) {
