@@ -61,6 +61,17 @@ app.post('/api/designs', async (req, res) => {
   }
 });
 
+app.delete('/api/designs/:id', async (req, res) => {
+  try {
+    const deletedDesign = await Design.findByIdAndDelete(req.params.id);
+    if (!deletedDesign) return res.status(404).json({ error: 'Design not found' });
+    res.json({ success: true, message: 'Design deleted' });
+  } catch (err) {
+    console.error('Delete Design Error:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 app.post('/api/contact', async (req, res) => {
   const { name, email, date, message } = req.body;
   

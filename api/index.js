@@ -143,9 +143,23 @@ app.post('/api/designs', async (req, res) => {
     const { src, title } = req.body;
     const newDesign = new Design({ src, title });
     await newDesign.save();
-    res.json({ success: true });
+    res.json({ success: true, design: newDesign });
   } catch (err) {
     res.status(500).json({ error: 'Save failed' });
+  }
+});
+
+app.delete('/api/designs/:id', async (req, res) => {
+  await connectDB();
+  if (!isConnected) {
+    return res.status(503).json({ error: 'Database not configured' });
+  }
+
+  try {
+    await Design.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: 'Design deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Delete failed' });
   }
 });
 

@@ -1,26 +1,19 @@
-// Contact form activation deployment
 import React from 'react'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import Services from './components/Services'
-import Gallery from './components/Gallery'
-import About from './components/About'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import MainSite from './pages/MainSite'
+import AdminDashboard from './pages/AdminDashboard'
 
 function App() {
   return (
-    <div className="app">
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <Gallery />
-        <About />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        {/* Main Public Website */}
+        <Route path="/" element={<MainSite />} />
+        
+        {/* Admin Dashboard (Hidden Route) */}
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
+    </Router>
   )
 }
 
