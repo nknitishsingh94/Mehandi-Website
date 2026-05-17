@@ -11,7 +11,7 @@ function AdminDashboard() {
   const [error, setError] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   
-  const ADMIN_PASSWORD = 'nargishmehandi'; // Hardcoded for simple security
+  const ADMIN_PASSWORD = 'nargish2026'; // Hardcoded for simple security
 
   useEffect(() => {
     // Check if logged in from sessionStorage

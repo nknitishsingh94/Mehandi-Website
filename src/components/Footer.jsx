@@ -79,7 +79,7 @@ const Footer = () => {
             <div className="mt-10" style={{ opacity: 0.1, width: '100%', borderTop: '1px solid white' }}></div>
             
             <p className="mt-4" style={{ opacity: 0.4, fontSize: '0.85rem' }}>
-              <a href="/admin" style={{ color: 'inherit', textDecoration: 'none', cursor: 'default' }}>&copy;</a> {new Date().getFullYear()} {SITE_DATA.name}. All rights reserved.
+              &copy; {new Date().getFullYear()} {SITE_DATA.name}. All rights reserved.
               <br />
               <span style={{ letterSpacing: '1px' }}>CRAFTED WITH PRECISION</span>
             </p>

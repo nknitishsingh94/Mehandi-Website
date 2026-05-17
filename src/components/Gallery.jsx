@@ -87,11 +87,9 @@ const Gallery = () => {
                 A curated collection of our finest works.
               </p>
             </div>
-            {/* Admin Action Button (Always asks password) */}
-            <button 
-              onClick={() => {
-                setShowAdminLogin(true);
-              }} 
+            {/* Admin Action Button (Redirects to secret Admin Panel) */}
+            <a 
+              href="/admin" 
               className="flex items-center justify-center"
               style={{ 
                 background: 'var(--white)', 
@@ -104,12 +102,15 @@ const Gallery = () => {
                 transition: 'all 0.3s ease',
                 position: 'relative',
                 zIndex: 10,
-                boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+                boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
               title="Admin Login"
             >
               <Lock size={20} />
-            </button>
+            </a>
           </div>
         </div>
 
