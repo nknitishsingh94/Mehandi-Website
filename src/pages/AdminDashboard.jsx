@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Trash2, Plus, LogOut, Image as ImageIcon } from 'lucide-react';
-import { BASE_URL } from '../data'; // Assuming BASE_URL is in data.js, let's check it later. If not, I'll use '/api'.
 
 function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
